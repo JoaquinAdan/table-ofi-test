@@ -4,6 +4,7 @@ import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import Cards from "./Cards";
 import { HiArrowUp } from "react-icons/hi";
+import Searcher from "./Searcher";
 
 const SearchComponent = ({ openSide }) => {
   const [users, setUsers] = useState([]);
@@ -107,13 +108,7 @@ const SearchComponent = ({ openSide }) => {
           }
         >
           <Cards users={users} />
-          <input
-            onChange={searcher}
-            value={search}
-            type="text"
-            placeholder="Buscar"
-            className="form-control"
-          />
+          <Searcher openSide={openSide} searcher={searcher}/>
           <div className="table-container">
             <Table striped bordered hover>
               <thead>
