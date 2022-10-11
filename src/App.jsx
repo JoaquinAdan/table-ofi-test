@@ -4,7 +4,7 @@ import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsBox } from "react-icons/bs";
 import { BsPeopleFill } from "react-icons/bs";
-import { AiOutlineHome } from "react-icons/ai";
+import { HiOutlineHome } from "react-icons/hi";
 import TestComponent from "./components/TestComponent";
 import Home from "./components/Home";
 
@@ -21,7 +21,7 @@ function App() {
         />
         {openSide ? (
           <div className="icon-container">
-            <AiOutlineHome
+            <HiOutlineHome
               className="icon-side"
               onClick={() => setChangePage("")}
             />
@@ -34,10 +34,10 @@ function App() {
         ) : null}
       </div>
       {changePage === "" ? (
-        <Home />
+        <Home openSide={openSide}/>
       ) : changePage === "abuelos" ? (
-        <SearchComponent />
-      ) : changePage === "test" ? <TestComponent /> : null}
+        <SearchComponent openSide={openSide}/>
+      ) : changePage === "test" ? <TestComponent openSide={openSide}/> : null}
     </div>
   );
 }

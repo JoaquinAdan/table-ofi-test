@@ -5,15 +5,17 @@ import { useEffect, useState } from "react";
 import Cards from "./Cards";
 import { HiArrowUp } from "react-icons/hi";
 
-const SearchComponent = () => {
+const SearchComponent = ({ openSide }) => {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState(["id", true]);
   const [check, setCheck] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const URL =
     "https://633ee4220dbc3309f3c04d34.mockapi.io/client-information/client-information";
   const callApi = async () => {
+    setLoading(true);
     const response = await fetch(URL);
     const data = await response.json();
     data.map((e) => {
@@ -23,6 +25,7 @@ const SearchComponent = () => {
       return e;
     });
     setUsers(data);
+    setLoading(false);
     // console.log(data);
   };
 
@@ -85,72 +88,126 @@ const SearchComponent = () => {
   };
 
   return (
-    <div style={{ marginLeft: "200px" }}>
-      <Cards users={users} />
-      <input
-        onChange={searcher}
-        value={search}
-        type="text"
-        placeholder="Buscar"
-        className="form-control"
-      />
-      <div className="table-container">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th style={{ cursor: "pointer" }}>
-                <input
-                  type="checkbox"
-                  onClick={checked}
-                  className="father-checkbox"
-                />
-              </th>
-              <th onClick={() => sorter("id")} style={{ cursor: "pointer" }}>
-                Id
-                <HiArrowUp
-                  style={sortField[1] && sortField[0] === "id" ? { transition:".4s",transform: "rotate(0deg)" } : { transition:".4s",transform: "rotate(180deg)" }}
-                />
-              </th>
-              <th onClick={() => sorter("name")} style={{ cursor: "pointer" }}>
-                Nombre
-                <HiArrowUp
-                  style={sortField[1] && sortField[0] === "name"  ? { transition:".4s",transform: "rotate(0deg)" } : { transition:".4s",transform: "rotate(180deg)" }}
-                />
-              </th>
-              <th onClick={() => sorter("city")} style={{ cursor: "pointer" }}>
-                Ciudad
-                <HiArrowUp
-                  style={sortField[1] && sortField[0] === "city"  ? { transition:".4s",transform: "rotate(0deg)" } : { transition:".4s",transform: "rotate(180deg)" }}
-                />
-              </th>
-              <th onClick={() => sorter("date")} style={{ cursor: "pointer" }}>
-                Fecha
-                <HiArrowUp
-                  style={sortField[1] && sortField[0] === "date"  ? { transition:".4s",transform: "rotate(0deg)" } : { transition:".4s",transform: "rotate(180deg)" }}
-                />
-              </th>
-              <th
-                onClick={() => {
-                  sorter("payment");
-                }}
-                style={{ cursor: "pointer" }}
-              >
-                Pago
-                <HiArrowUp
-                  style={sortField[1] && sortField[0] === "payment"  ? { transition:".4s",transform: "rotate(0deg)" } : { transition:".4s",transform: "rotate(180deg)" }}
-                />
-              </th>
-              <th onClick={() => sorter("total")} style={{ cursor: "pointer" }}>
-                Monto
-              </th>
-            </tr>
-          </thead>
-          {results.map((user) => (
-            <Client key={user.name} user={user} />
-          ))}
-        </Table>
-      </div>
-    </div>
+    <>
+      {loading ? (
+        <img
+          src="spinner.svg"
+          style={
+            openSide
+              ? { marginLeft: "200px", transition: ".3s ease" }
+              : { marginLeft: "20px", transition: ".3s ease" }
+          }
+        />
+      ) : (
+        <div
+          style={
+            openSide
+              ? { marginLeft: "200px", transition: ".3s ease" }
+              : { marginLeft: "20px", transition: ".3s ease" }
+          }
+        >
+          <Cards users={users} />
+          <input
+            onChange={searcher}
+            value={search}
+            type="text"
+            placeholder="Buscar"
+            className="form-control"
+          />
+          <div className="table-container">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th style={{ cursor: "pointer" }}>
+                    <input
+                      type="checkbox"
+                      onClick={checked}
+                      className="father-checkbox"
+                    />
+                  </th>
+                  <th
+                    onClick={() => sorter("id")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Id
+                    <HiArrowUp
+                      style={
+                        sortField[1] && sortField[0] === "id"
+                          ? { transition: ".4s", transform: "rotate(0deg)" }
+                          : { transition: ".4s", transform: "rotate(180deg)" }
+                      }
+                    />
+                  </th>
+                  <th
+                    onClick={() => sorter("name")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Nombre
+                    <HiArrowUp
+                      style={
+                        sortField[1] && sortField[0] === "name"
+                          ? { transition: ".4s", transform: "rotate(0deg)" }
+                          : { transition: ".4s", transform: "rotate(180deg)" }
+                      }
+                    />
+                  </th>
+                  <th
+                    onClick={() => sorter("city")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Ciudad
+                    <HiArrowUp
+                      style={
+                        sortField[1] && sortField[0] === "city"
+                          ? { transition: ".4s", transform: "rotate(0deg)" }
+                          : { transition: ".4s", transform: "rotate(180deg)" }
+                      }
+                    />
+                  </th>
+                  <th
+                    onClick={() => sorter("date")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Fecha
+                    <HiArrowUp
+                      style={
+                        sortField[1] && sortField[0] === "date"
+                          ? { transition: ".4s", transform: "rotate(0deg)" }
+                          : { transition: ".4s", transform: "rotate(180deg)" }
+                      }
+                    />
+                  </th>
+                  <th
+                    onClick={() => {
+                      sorter("payment");
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Pago
+                    <HiArrowUp
+                      style={
+                        sortField[1] && sortField[0] === "payment"
+                          ? { transition: ".4s", transform: "rotate(0deg)" }
+                          : { transition: ".4s", transform: "rotate(180deg)" }
+                      }
+                    />
+                  </th>
+                  <th
+                    onClick={() => sorter("total")}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Monto
+                  </th>
+                </tr>
+              </thead>
+              {results.map((user) => (
+                <Client key={user.name} user={user} />
+              ))}
+            </Table>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

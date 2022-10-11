@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
 
-const Home = () => {
+const Home = ({ openSide }) => {
   return (
-    <div style={{marginLeft: "200px"}}>¡Bienvenido!</div>
-  )
-}
+    <h1
+      style={
+        openSide
+          ? { marginLeft: "200px", transition: ".3s ease" }
+          : { marginLeft: "20px", transition: ".3s ease" }
+      }
+    >
+      ¡Bienvenido!
+    </h1>
+  );
+};
 
-export default Home
+export default Home;
